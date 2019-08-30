@@ -5,7 +5,7 @@ It is based on a talk given at [CanFP](https://www.meetup.com/CanFPG/) by Alex M
 
 ## Usage Example
 
-```
+```haskell
 {-# LANGUAGE DataKinds     #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia   #-}
