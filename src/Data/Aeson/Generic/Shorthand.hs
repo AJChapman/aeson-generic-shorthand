@@ -56,14 +56,12 @@ instance (Generic a, GFromJSON Zero (Rep a), JSONOptions opts) => FromJSON (Gene
 
 data SnakeFields
 
+-- | Convert our field names into JSON-style field names by dropping everything
+-- up to the first upper case letter, then snake-casing.
+-- E.g. _organizationUuid -> uuid
+--      _metaConceptType  -> concept_type
 snakeOptionsMod :: Options -> Options
-snakeOptionsMod opts = opts
-  { fieldLabelModifier = quietSnake . dropWhile (not . isUpper)
-  -- ^ Convert our field names into JSON-style field names by dropping everything
-  -- up to the first upper case letter, then snake-casing.
-  -- E.g. _organizationUuid -> uuid
-  --      _metaConceptType  -> concept_type
-  }
+snakeOptionsMod opts = opts { fieldLabelModifier = quietSnake . dropWhile (not . isUpper) }
 
 snakeOptions :: Options
 snakeOptions = defaultOptions & snakeOptionsMod
@@ -73,14 +71,12 @@ instance JSONOptions opts => JSONOptions (SnakeFields ': opts) where
 
 data CamelFields
 
+-- | Convert our field names by dropping everything
+-- up to the first upper case letter, then camel-casing.
+-- E.g. _organizationUuid -> uuid
+--      _metaConceptType  -> conceptType
 camelOptionsMod :: Options -> Options
-camelOptionsMod opts = opts
-  { fieldLabelModifier = camel . dropWhile (not . isUpper)
-  -- ^ Convert our field names by dropping everything
-  -- up to the first upper case letter, then camel-casing.
-  -- E.g. _organizationUuid -> uuid
-  --      _metaConceptType  -> conceptType
-  }
+camelOptionsMod opts = opts { fieldLabelModifier = camel . dropWhile (not . isUpper) }
 
 camelOptions :: Options
 camelOptions = defaultOptions & camelOptionsMod
